@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import time
 import numpy as np
+
 start_time = time.time()
 
 page = requests.get("https://allegro.pl/")
@@ -41,21 +42,27 @@ ile_podkategorii = {
 
 
 def normalizacja(lista):
-
     znormalizowana_lista = []
     for i in range(len(lista)):
         znormalizowana_wartosc = (lista[i] - min(lista)) / (max(lista) - min(lista))
-        znormalizowana_lista.append(round(znormalizowana_wartosc, 1)*10)
+        znormalizowana_lista.append(round(znormalizowana_wartosc, 1) * 10)
+
+    return znormalizowana_lista
+
+def normalizacja_cen(lista):
+    znormalizowana_lista = []
+    for i in range(len(lista)):
+        znormalizowana_wartosc = (lista[i] - min(lista)) / (max(lista) - min(lista))
+        znormalizowana_lista.append(10-(round(znormalizowana_wartosc, 1) * 10))
 
     return znormalizowana_lista
 
 
 def tworzenie_bazy_kategorii(kategoria, ilosc_podkategorii_do_stworzenia):
-
     kategoria_ul = list(kategoria.children)[1].find_all('ul')
     podkategoria_dict = dict()
 
-    for i in range(0, ilosc_podkategorii_do_stworzenia*2, 2):
+    for i in range(0, ilosc_podkategorii_do_stworzenia * 2, 2):
         wartosci = []
         for j in range(1, len(kategoria_ul[i].find_all('a'))):
             wartosci.append(kategoria_ul[i].find_all('a')[j].get_text())
@@ -65,15 +72,15 @@ def tworzenie_bazy_kategorii(kategoria, ilosc_podkategorii_do_stworzenia):
 
 
 def tworzenie_bazy_produktow(kategoria, ilosc_podkategorii):
-
     kategoria_glowna = 'elektronika'
     kategoria_ul = list(kategoria.children)[1].find_all('ul')
     linki_do_kategorii = []
     produkty_kategorii = []
     popularnosc = []  # lista do obliczenia popularności
+    cena_normalizacja = []
 
     # tworzenie listy z linkami do podpodkategorii
-    for i in range(0, ilosc_podkategorii*2, 2):
+    for i in range(0, ilosc_podkategorii * 2, 2):
         for j in range(1, len(kategoria_ul[i].find_all('a'))):
             obecna_para = []
             nazwa_kategorii = kategoria_ul[i].find_all('a')[j].get_text()
@@ -83,7 +90,7 @@ def tworzenie_bazy_produktow(kategoria, ilosc_podkategorii):
 
     # tworzenie listy z nazwami podkategorii i podpodkategorii
     kategoria_nazwy_dzieci = []
-    for i in range(0, ilosc_podkategorii*2, 2):
+    for i in range(0, ilosc_podkategorii * 2, 2):
         podpodkategorie_nazwy = []
         for j in range(1, len(kategoria_ul[i].find_all('a'))):
             podpodkategoria = kategoria_ul[i].find_all('a')[j].get_text()
@@ -97,12 +104,13 @@ def tworzenie_bazy_produktow(kategoria, ilosc_podkategorii):
     iter1 = 0
     iter2 = 0
     for i in range(len(linki_do_kategorii)):
-        produkt_page = requests.get("https://allegro.pl"+linki_do_kategorii[i][1])
+        produkt_page = requests.get("https://allegro.pl" + linki_do_kategorii[i][1])
         produkt_soup = BeautifulSoup(produkt_page.content, 'html.parser')
         nazwa_podkategorii = kategoria_nazwy_dzieci[iter1][0]
         nazwa_podpodkategorii = kategoria_nazwy_dzieci[iter1][1][iter2]
         produkty_podkategorii = []
         podkategoria_ile_osob_kupilo = []
+        podkategoria_cena = []
 
         for j in range(2, 7):
             dany_produkt = []
@@ -118,6 +126,7 @@ def tworzenie_bazy_produktow(kategoria, ilosc_podkategorii):
             cena = cena.replace(" ", "")
             cena = cena.replace(",", "")
             cena = cena[0:len(cena) - 2]  # usuwanie dwóch zer z końca
+            podkategoria_cena.append(int(cena))
 
             # liczba, ile osób kupiło dany produkt
             ile_osob_kupilo = parent_produkt[0].find_all("span", {"class": "_9c44d_2o04k"})[0].get_text()
@@ -129,7 +138,9 @@ def tworzenie_bazy_produktow(kategoria, ilosc_podkategorii):
             # dodanie do listy, żeby potem obliczyć popularność:
             podkategoria_ile_osob_kupilo.append(int(ile_osob_kupilo))
 
-            dany_produkt.extend([kategoria_glowna, nazwa_podkategorii, nazwa_podpodkategorii, nazwa_produktu, ten_link, cena, ile_osob_kupilo])
+            dany_produkt.extend(
+                [kategoria_glowna, nazwa_podkategorii, nazwa_podpodkategorii, nazwa_produktu, ten_link, cena,
+                 ile_osob_kupilo])
             produkty_podkategorii.append(dany_produkt)
 
         iter2 += 1
@@ -145,7 +156,13 @@ def tworzenie_bazy_produktow(kategoria, ilosc_podkategorii):
 
         produkty_kategorii.append(produkty_podkategorii)
 
-    return produkty_kategorii, popularnosc
+        if max(podkategoria_cena) == 0 and min(podkategoria_cena) == 0:
+            podkategoria_normalizacja_cen = [0, 0, 0, 0, 0]
+        else:
+            podkategoria_normalizacja_cen = normalizacja_cen(podkategoria_cena)
+        cena_normalizacja.extend(podkategoria_normalizacja_cen)
+
+    return produkty_kategorii, popularnosc, cena_normalizacja
 
 
 elektronika_produkty = tworzenie_bazy_produktow(elektronika, 8)[0]
@@ -169,6 +186,8 @@ np.savetxt('elektronika.csv', [
         for z in p
             for x in z
 ], delimiter=',', fmt='%s')
+
+
 
 
 
