@@ -165,8 +165,56 @@ def tworzenie_bazy_produktow(kategoria, ilosc_podkategorii):
     return produkty_kategorii, popularnosc, cena_normalizacja
 
 
-elektronika_produkty = tworzenie_bazy_produktow(elektronika, 8)[0]
-elektronika_popularnosc = tworzenie_bazy_produktow(elektronika, 8)[1]
+lista_produkty = []
+lista_popularnosci = []
+lista_cen_normalizacja =[]
+
+lista_produkty.append(tworzenie_bazy_produktow(elektronika,8)[0])
+# lista_produkty.append(tworzenie_bazy_produktow(moda,5)[0])        #nie działa
+# lista_produkty.append(tworzenie_bazy_produktow(dom_i_ogrod,6)[0])
+# lista_produkty.append(tworzenie_bazy_produktow(supermarket,4)[0])
+# lista_produkty.append(tworzenie_bazy_produktow(dziecko,6)[0])
+# lista_produkty.append(tworzenie_bazy_produktow(uroda,5)[0])      #nie działa
+# lista_produkty.append(tworzenie_bazy_produktow(zdrowie,8)[0])
+# lista_produkty.append(tworzenie_bazy_produktow(kultura_i_rozrywka,7)[0])
+# lista_produkty.append(tworzenie_bazy_produktow(sport_i_turystyka,6)[0])
+# lista_produkty.append(tworzenie_bazy_produktow(motoryzacja,7)[0])
+# lista_produkty.append(tworzenie_bazy_produktow(nieruchomosci,2)[0])  #nie działa
+# lista_produkty.append(tworzenie_bazy_produktow(kolekcje_i_sztuka,5)[0])
+# lista_produkty.append(tworzenie_bazy_produktow(firma_i_uslugi,2)[0])
+
+lista_popularnosci.append(tworzenie_bazy_produktow(elektronika,8)[1])
+# lista_popularnosci.append(tworzenie_bazy_produktow(moda,5)[1])
+# lista_popularnosci.append(tworzenie_bazy_produktow(dom_i_ogrod,6)[1])
+# lista_popularnosci.append(tworzenie_bazy_produktow(supermarket,4)[1])
+# lista_popularnosci.append(tworzenie_bazy_produktow(dziecko,6)[1])
+# lista_popularnosci.append(tworzenie_bazy_produktow(uroda,5)[1])
+# lista_popularnosci.append(tworzenie_bazy_produktow(zdrowie,8)[1])
+# lista_popularnosci.append(tworzenie_bazy_produktow(kultura_i_rozrywka,7)[1])
+# lista_popularnosci.append(tworzenie_bazy_produktow(sport_i_turystyka,6)[1])
+# lista_popularnosci.append(tworzenie_bazy_produktow(motoryzacja,7)[1])
+# lista_popularnosci.append(tworzenie_bazy_produktow(nieruchomosci,2)[1])    #nie działa
+# lista_popularnosci.append(tworzenie_bazy_produktow(kolekcje_i_sztuka,5)[1])
+# lista_popularnosci.append(tworzenie_bazy_produktow(firma_i_uslugi,2)[1])
+
+lista_cen_normalizacja.append(tworzenie_bazy_produktow(elektronika,8)[2])
+# lista_cen_normalizacja.append(tworzenie_bazy_produktow(moda,5)[2])        #nie działa
+# lista_cen_normalizacja.append(tworzenie_bazy_produktow(dom_i_ogrod,6)[2])
+# lista_cen_normalizacja.append(tworzenie_bazy_produktow(supermarket,4)[2])
+# lista_cen_normalizacja.append(tworzenie_bazy_produktow(dziecko,6)[2])
+# lista_cen_normalizacja.append(tworzenie_bazy_produktow(uroda,5)[2])      #nie działa
+# lista_cen_normalizacja.append(tworzenie_bazy_produktow(zdrowie,8)[2])
+# lista_cen_normalizacja.append(tworzenie_bazy_produktow(kultura_i_rozrywka,7)[2])
+# lista_cen_normalizacja.append(tworzenie_bazy_produktow(sport_i_turystyka,6)[2])
+# lista_cen_normalizacja.append(tworzenie_bazy_produktow(motoryzacja,7)[2])
+# lista_cen_normalizacja.append(tworzenie_bazy_produktow(nieruchomosci,2)[2])  #nie działa
+# lista_cen_normalizacja.append(tworzenie_bazy_produktow(kolekcje_i_sztuka,5)[2])
+# lista_cen_normalizacja.append(tworzenie_bazy_produktow(firma_i_uslugi,2)[2])
+
+
+
+# elektronika_produkty = tworzenie_bazy_produktow(elektronika, 8)[0]
+# elektronika_popularnosc = tworzenie_bazy_produktow(elektronika, 8)[1]
 #print(elektronika_popularnosc)
 
 #print('-'*25)
@@ -175,9 +223,10 @@ elektronika_popularnosc = tworzenie_bazy_produktow(elektronika, 8)[1]
 #print('C',elektronika_produkty[0][0])
 
 iter3 = 0
-for i in range(len(elektronika_produkty)):
-    for j in range(len(elektronika_produkty[i])):
-        elektronika_produkty[i][j].append(elektronika_popularnosc[iter3])
+for i in range(len(lista_produkty[0])):
+    for j in range(len(lista_produkty[0][i])):
+        lista_produkty[0][i][j].append(lista_popularnosci[0][iter3])
+        lista_produkty[0][i][j].append(lista_cen_normalizacja[0][iter3])
         iter3 += 1
 
 
