@@ -175,7 +175,8 @@ lista_produkty = []
 lista_popularnosci = []
 lista_cen_normalizacja = []
 
-# kod do zrobienia jednej kategorii (do zmiennej konkretna_kategoria przypisz nazwę kategorii)
+# wersja 1/3: kod do zrobienia jednej kategorii (do zmiennej konkretna_kategoria przypisz nazwę kategorii)
+'''
 konkretna_kategoria = 'motoryzacja'
 indeks_kategorii = lista_nazw_parent_kategorii.index(konkretna_kategoria)
 lista_produkty.append(tworzenie_bazy_produktow(konkretna_kategoria, lista_parent_kategorii[indeks_kategorii],
@@ -196,9 +197,10 @@ np.savetxt(konkretna_kategoria + '.csv', [
     x for p in zip(lista_produkty[0])
         for z in p
             for x in z
-], delimiter=',', fmt='%s', encoding='utf-8-sig')
+], delimiter=',', fmt='%s', encoding='utf-8-sig')'''
 
-# kod do zrobienia wszystkich kategorii na raz
+# wersja 2/3: kod do zrobienia wszystkich kategorii na raz i zapisanie do różnych plików csv,
+# odpowiadającym kategoriom głównym
 '''
 for i in range(ilosc_kategorii):
     lista_produkty.append(tworzenie_bazy_produktow(lista_nazw_parent_kategorii[i], lista_parent_kategorii[i],
@@ -224,5 +226,32 @@ for i in range(ilosc_kategorii):
             for z in p
                 for x in z
     ], delimiter=',', fmt='%s', encoding='utf-8-sig')'''
+
+# wersja 3/3: kod do zrobienia wszystkich kategorii na raz i zapisanie do jednego pliku csv
+
+for i in range(ilosc_kategorii):
+    lista_produkty.append(tworzenie_bazy_produktow(lista_nazw_parent_kategorii[i], lista_parent_kategorii[i],
+                                                   ile_podkategorii_lista[i])[0])
+for i in range(ilosc_kategorii):
+    lista_popularnosci.append(tworzenie_bazy_produktow(lista_nazw_parent_kategorii[i], lista_parent_kategorii[i],
+                                                       ile_podkategorii_lista[i])[1])
+for i in range(ilosc_kategorii):
+    lista_cen_normalizacja.append(tworzenie_bazy_produktow(lista_nazw_parent_kategorii[i], lista_parent_kategorii[i],
+                                                           ile_podkategorii_lista[i])[2])
+iter3 = 0
+for k in range(ilosc_kategorii):
+    iter3 = 0
+    for i in range(len(lista_produkty[k])):
+        for j in range(len(lista_produkty[k][i])):
+            lista_produkty[k][i][j].append(lista_popularnosci[k][iter3])
+            lista_produkty[k][i][j].append(lista_cen_normalizacja[k][iter3])
+            iter3 += 1
+
+np.savetxt('baza_wszystkich_produktow.csv', [
+    x for p in zip(lista_produkty)
+        for z in p
+            for f in z
+                for x in f
+], delimiter=',', fmt='%s', encoding='utf-8-sig')
 
 print("--- %s seconds ---" % (time.time() - start_time))
