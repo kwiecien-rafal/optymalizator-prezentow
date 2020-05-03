@@ -41,6 +41,8 @@ ile_podkategorii_lista = [ile_podkategorii['elektronika'], ile_podkategorii['dom
                           ile_podkategorii['zdrowie'], ile_podkategorii['kultura_i_rozrywka'],
                           ile_podkategorii['sport_i_turystyka'], ile_podkategorii['motoryzacja']]
 
+ilosc_kategorii = len(lista_parent_kategorii)
+
 
 def normalizacja(lista):
     znormalizowana_lista = []
@@ -171,47 +173,17 @@ def tworzenie_bazy_produktow(kategoria_nazwa, kategoria, ilosc_podkategorii):
 
 lista_produkty = []
 lista_popularnosci = []
-lista_cen_normalizacja =[]
+lista_cen_normalizacja = []
 
-for i in range(9):
-    lista_produkty.append(tworzenie_bazy_produktow(lista_nazw_parent_kategorii[i], lista_parent_kategorii[i],
-                                                   ile_podkategorii_lista[i])[0])
-for i in range(9):
-    lista_popularnosci.append(tworzenie_bazy_produktow(lista_nazw_parent_kategorii[i], lista_parent_kategorii[i],
-                                                       ile_podkategorii_lista[i])[1])
-for i in range(9):
-    lista_cen_normalizacja.append(tworzenie_bazy_produktow(lista_nazw_parent_kategorii[i], lista_parent_kategorii[i],
-                                                           ile_podkategorii_lista[i])[2])
-
-# lista_produkty.append(tworzenie_bazy_produktow('elektronika', elektronika, 8)[0])
-# lista_produkty.append(tworzenie_bazy_produktow('dom_i_ogrod', dom_i_ogrod, 6)[0])
-# lista_produkty.append(tworzenie_bazy_produktow('supermarket', supermarket, 4)[0])
-# lista_produkty.append(tworzenie_bazy_produktow('dziecko', dziecko, 6)[0])
-# lista_produkty.append(tworzenie_bazy_produktow('uroda', uroda, 4)[0])
-# lista_produkty.append(tworzenie_bazy_produktow('zdrowie', zdrowie, 8)[0])
-# lista_produkty.append(tworzenie_bazy_produktow('kultura_i_rozrywka', kultura_i_rozrywka, 7)[0])
-# lista_produkty.append(tworzenie_bazy_produktow('sport_i_turystyka', sport_i_turystyka, 6)[0])
-# lista_produkty.append(tworzenie_bazy_produktow('motoryzacja', motoryzacja, 7)[0])
-
-# lista_popularnosci.append(tworzenie_bazy_produktow('elektronika', elektronika, 8)[1])
-# lista_popularnosci.append(tworzenie_bazy_produktow('dom_i_ogrod', dom_i_ogrod, 6)[1])
-# lista_popularnosci.append(tworzenie_bazy_produktow('supermarket', supermarket, 4)[1])
-# lista_popularnosci.append(tworzenie_bazy_produktow('dziecko', dziecko, 6)[1])
-# lista_popularnosci.append(tworzenie_bazy_produktow('uroda', uroda, 4)[1])
-# lista_popularnosci.append(tworzenie_bazy_produktow('zdrowie', zdrowie, 8)[1])
-# lista_popularnosci.append(tworzenie_bazy_produktow('kultura_i_rozrywka', kultura_i_rozrywka, 7)[1])
-# lista_popularnosci.append(tworzenie_bazy_produktow('sport_i_turystyka', sport_i_turystyka, 6)[1])
-# lista_popularnosci.append(tworzenie_bazy_produktow('motoryzacja', motoryzacja, 7)[1])
-
-# lista_cen_normalizacja.append(tworzenie_bazy_produktow('elektronika', elektronika, 8)[2])
-# lista_cen_normalizacja.append(tworzenie_bazy_produktow('dom_i_ogrod', dom_i_ogrod, 6)[2])
-# lista_cen_normalizacja.append(tworzenie_bazy_produktow('supermarket', supermarket, 4)[2])
-# lista_cen_normalizacja.append(tworzenie_bazy_produktow('dziecko', dziecko, 6)[2])
-# lista_cen_normalizacja.append(tworzenie_bazy_produktow('uroda', uroda, 4)[2])
-# lista_cen_normalizacja.append(tworzenie_bazy_produktow('zdrowie', zdrowie, 8)[2])
-# lista_cen_normalizacja.append(tworzenie_bazy_produktow('kultura_i_rozrywka', kultura_i_rozrywka, 7)[2])
-# lista_cen_normalizacja.append(tworzenie_bazy_produktow('sport_i_turystyka', sport_i_turystyka, 6)[2])
-# lista_cen_normalizacja.append(tworzenie_bazy_produktow('motoryzacja', motoryzacja, 7)[2])
+# kod do zrobienia jednej kategorii (do zmiennej konkretna_kategoria przypisz nazwę kategorii)
+konkretna_kategoria = 'motoryzacja'
+indeks_kategorii = lista_nazw_parent_kategorii.index(konkretna_kategoria)
+lista_produkty.append(tworzenie_bazy_produktow(konkretna_kategoria, lista_parent_kategorii[indeks_kategorii],
+                                               ile_podkategorii[konkretna_kategoria])[0])
+lista_popularnosci.append(tworzenie_bazy_produktow(konkretna_kategoria, lista_parent_kategorii[indeks_kategorii],
+                                                   ile_podkategorii[konkretna_kategoria])[1])
+lista_cen_normalizacja.append(tworzenie_bazy_produktow(konkretna_kategoria, lista_parent_kategorii[indeks_kategorii],
+                                                       ile_podkategorii[konkretna_kategoria])[2])
 
 iter3 = 0
 for i in range(len(lista_produkty[0])):
@@ -220,11 +192,37 @@ for i in range(len(lista_produkty[0])):
         lista_produkty[0][i][j].append(lista_cen_normalizacja[0][iter3])
         iter3 += 1
 
-for i in range(9):
+np.savetxt(konkretna_kategoria + '.csv', [
+    x for p in zip(lista_produkty[0])
+        for z in p
+            for x in z
+], delimiter=',', fmt='%s', encoding='utf-8-sig')
+
+# kod do zrobienia wszystkich kategorii na raz
+'''
+for i in range(ilosc_kategorii):
+    lista_produkty.append(tworzenie_bazy_produktow(lista_nazw_parent_kategorii[i], lista_parent_kategorii[i],
+                                                   ile_podkategorii_lista[i])[0])
+for i in range(ilosc_kategorii):
+    lista_popularnosci.append(tworzenie_bazy_produktow(lista_nazw_parent_kategorii[i], lista_parent_kategorii[i],
+                                                       ile_podkategorii_lista[i])[1])
+for i in range(ilosc_kategorii):
+    lista_cen_normalizacja.append(tworzenie_bazy_produktow(lista_nazw_parent_kategorii[i], lista_parent_kategorii[i],
+                                                           ile_podkategorii_lista[i])[2])
+iter3 = 0
+for k in range(ilosc_kategorii):
+    iter3 = 0
+    for i in range(len(lista_produkty[k])):
+        for j in range(len(lista_produkty[k][i])):
+            lista_produkty[k][i][j].append(lista_popularnosci[k][iter3])
+            lista_produkty[k][i][j].append(lista_cen_normalizacja[k][iter3])
+            iter3 += 1
+
+for i in range(ilosc_kategorii):
     np.savetxt(lista_nazw_parent_kategorii[i] + '.csv', [
-        x for p in zip(lista_produkty[0])
+        x for p in zip(lista_produkty[i])
             for z in p
                 for x in z
-    ], delimiter=',', fmt='%s')
+    ], delimiter=',', fmt='%s', encoding='utf-8-sig')'''
 
 print("--- %s seconds ---" % (time.time() - start_time))
