@@ -2,7 +2,7 @@ wszystkie kolumny po kolei:
 csv = {
 	0: Nazwa kategorii g³ównej
 	1: Nazwa podkategorii
-	2: Nazwa podpodkategorii
+	2: Nazwa kategori szczegó³owej
 	3: Nazwa produktu
 	4: Link do produktu
 	5: Cena produktu w z³otówkach
@@ -10,5 +10,17 @@ csv = {
 	7: WskaŸnik popularnoœci (znormalizowanie pkt. 6 wzglêdem podpodkategorii)
 	8: WskaŸnik ceny (znormalizowanie pkt. 5 wzglêdem podpodkategorii)
 }
-
 Punktu 8. byæ mo¿e nie u¿yjemy, bo bêdziemy normalizowaæ dopiero w koszyku.
+
+Wprowadzone kategorie do bazy = {
+	1: elektronika
+	2: dom_i_ogrod
+	3: supermarket
+	4: dziecko
+	5: uroda
+	6: zdrowie
+	7: kultura_i_rozrywka
+	8: sport_i_turystyka
+	9: motoryzacja
+}
+
