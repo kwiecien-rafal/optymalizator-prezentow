@@ -77,3 +77,22 @@ def ograniczenia_wiek(poczatkowa_baza, wiek):
                 obecna_baza.append(poczatkowa_baza[i])
 
     return obecna_baza
+
+def ograniczenie_budzet (początkowa_baza,budzet_min,budzet_max):
+
+    obecna_baza = []
+
+    for i in range(len(początkowa_baza)):
+        if int(początkowa_baza[i][5])<=budzet_max and int(początkowa_baza[i][5])>=budzet_min:
+            obecna_baza.append(początkowa_baza[i])
+
+    return obecna_baza
+
+# p='k'
+# bz = ograniczenia_plec(baza_produktow, p)
+# bz2 = ograniczenia_wiek(bz, 10)
+# bz3 = ograniczenie_budzet(bz2, 10,100)
+#
+#
+# for i in range(len(bz3)):
+#     print(bz3[i][5])
