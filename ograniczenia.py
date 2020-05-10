@@ -78,12 +78,13 @@ def ograniczenia_wiek(poczatkowa_baza, wiek):
 
     return obecna_baza
 
-def ograniczenie_budzet (początkowa_baza,budzet_min,budzet_max):
+
+def ograniczenie_budzet(początkowa_baza, budzet_min, budzet_max):
 
     obecna_baza = []
 
     for i in range(len(początkowa_baza)):
-        if int(początkowa_baza[i][5])<=budzet_max and int(początkowa_baza[i][5])>=budzet_min:
+        if budzet_min <= int(początkowa_baza[i][5]) <= budzet_max:
             obecna_baza.append(początkowa_baza[i])
 
     return obecna_baza
