@@ -1,6 +1,7 @@
 import numpy as np
 
-kryteria = ['cena', 'popularność', 'telefony', 'agd', 'książki']
+# kryteria = ['cena', 'popularność', 'telefony', 'agd', 'książki']
+
 
 def ahp(kryteria):
     RandomIndex = [0.00, 0.00, 0.58, 0.90, 1.12, 1.24, 1.32, 1.41, 1.45, 1.49]  # RandomIndex dla roznych ilosci kryteriow
@@ -43,9 +44,9 @@ def ahp(kryteria):
     return kryteria_dict
 
 
-print('- określ preferencje jednej kategorii względem drugiej w skali (1/9, 1/8, ... 1/2, 1, 2, ...9) - ')
+'''print('- określ preferencje jednej kategorii względem drugiej w skali (1/9, 1/8, ... 1/2, 1, 2, ...9) - ')
 wynik = ahp(kryteria)
 print('-'*20)
 for i in wynik:
-    print(i,':',wynik[i])
+    print(i,':',wynik[i])'''
 
