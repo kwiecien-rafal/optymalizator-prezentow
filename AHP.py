@@ -39,7 +39,7 @@ def ahp(kryteria):
 
     kryteria_dict = {}
     for i in range(k_matrix.shape[0]):
-        kryteria_dict[kryteria[i]] = "{:.2%}".format(weights[i])
+        kryteria_dict[kryteria[i]] = round((weights[i]),2)
 
     return kryteria_dict
 
