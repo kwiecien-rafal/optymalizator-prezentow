@@ -4,7 +4,7 @@ import numpy as np
 
 
 def ahp(kryteria):
-    RandomIndex = [0.00, 0.00, 0.58, 0.90, 1.12, 1.24, 1.32, 1.41, 1.45, 1.49]  # RandomIndex dla roznych ilosci kryteriow
+    RandomIndex = [0.01, 0.01, 0.58, 0.90, 1.12, 1.24, 1.32, 1.41, 1.45, 1.49]  # RandomIndex dla roznych ilosci kryteriow
     cri = 0.15                                                                  # prog spojnosci
     
     n = len(kryteria)
@@ -28,7 +28,10 @@ def ahp(kryteria):
     weightedsum = np.sum(cons_vector, axis=1)                       # zsumuj rzedy
     ratio = weightedsum / weights                                   # podziel przez wektor wag
     lambdamax = np.sum(ratio, axis = 0) / n                         # srednia z poprzedniego wyniku
-    ConsistencyIndex = (lambdamax - n) / (n - 1)                    # wskaznik spojnosci
+    if n - 1 == 0:
+        ConsistencyIndex = (lambdamax - n) / 1                     
+    else:
+        ConsistencyIndex = (lambdamax - n) / (n - 1)                # wskaznik spojnosci
     ConsistencyRatio = ConsistencyIndex / RandomIndex[n-1]          # wspolczynnik spojnosci 
 
     print('-'*20)                                                   ### porownanie z progiem spojnosci
