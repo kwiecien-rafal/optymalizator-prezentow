@@ -23,10 +23,11 @@ budzet = int(input('Podaj swój łączny budżet na wszystkie prezenty: '))
 print('Zaczynamy!')
 
 # lista z osobami
-osoby = []
+lista_osob = []
+lista_przedmiotow_osob = []
 
 # main loop
-while len(osoby) < il_osob:
+while len(lista_osob) < il_osob:
 
     obecna_baza = baza_produktow
 
@@ -36,7 +37,7 @@ while len(osoby) < il_osob:
     wiek = int(input('Ile lat ma ' + imie + ' >>>'))
 
     obecna_os = [imie, plec, wiek]
-    osoby.append(obecna_os)
+    lista_osob.append(obecna_os)
 
     obecna_baza = ogr.ograniczenia_plec(obecna_baza, plec)
     obecna_baza = ogr.ograniczenia_wiek(obecna_baza, wiek)
@@ -97,3 +98,14 @@ while len(osoby) < il_osob:
 
     for i in wynik:
         print(i)
+
+    lista_przedmiotow_osob.append(wynik)
+
+imiona = []
+for osoba in lista_osob:
+    imiona.append(osoba[0])
+
+ahp_3 = aha.ahp(imiona)
+
+zz = fcl.optymalizacja(ahp_3, lista_przedmiotow_osob, budzet)
+print(zz)
