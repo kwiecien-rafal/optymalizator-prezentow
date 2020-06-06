@@ -1,55 +1,46 @@
-# ograniczenia na okazje
+cd# ograniczenia na okazje
 urodziny_gwiazdka = [
     'telefony i akcesoria',
     'komputery',
     'agd małe',
     'fotografia',
-    'wyposazenie',
+    'wyposażenie',
     'manicure i pedicure',
     'makijaż',
     'perfumy',
     'zabawki',
-    'ksiazki i komiksy',
+    'książki i komiksy',
     'gry',
     'instrumenty',
     'muzyka',
     'filmy',
-    'kody i doladowania',
+    'kody i doładowania',
     'rowery i akcesoria',
-    'wedkarstwo',
-    'skating, slackline',
-    'antyki i sztuka',
-    'rekodzielo',
-    'teatr',
+    'wędkarstwo',
+    'skating slackline',
     'zabawki'
 ]
 
 walentynki = [
     'perfumy',
-    'teatr',
-    'klasyka'
-    'ona'
+    'filmy',
+    'książki i komiksy'
+    'makijaż'
 ]
 
 dzien_kobiet_chlopaka = [
     'perfumy',
-    'teatr',
-    'klasyka'
-    'ona',
     'gry',
-    'ksiazki i komiksy',
+    'książki i komiksy',
     'muzyka',
-    'teatr',
-    'perfumy',
-    'ona'
 ]
 
 dzien_dziadka_babci_mamy_taty = [
-    'agd male',
-    'wyposazenie',
-    'narzedzia',
+    'agd małe',
+    'wyposażenie',
+    'narzędzia',
     'perfumy',
-    'urzadzenia medyczne',
+    'urządzenia medyczne',
     'medycyna naturalna',
     'dermokosmetyki',
     'suplementy diety',
@@ -69,7 +60,7 @@ dzien_dziecka = [
     'muzyka',
     'filmy',
     'rowery i akcesoria',
-    'skating, slackline'
+    'skating slackline'
 ]
 
 slub = [
@@ -93,7 +84,7 @@ slub = [
     'turystyka',
     'siłownia i fitness',
     'wędkarstwo',
-    'skating, slackline',
+    'skating slackline',
     'militaria'
 ]
 
