@@ -2,11 +2,6 @@ import csv
 import numpy as np
 import plec_wiek_kategorie as pwk
 
-# wczytanie wszystkich produktow
-with open('baza_wszystkich_produktow.csv', newline='', encoding='utf-8-sig') as f:
-    reader = csv.reader(f)
-    baza_produktow = list(reader)
-
 kobiece_podkategorie = pwk.kobiece_podkategorie
 meskie_podkategorie = pwk.meskie_podkategorie
 kobiece_kategorie_szczegolowe = pwk.kobiece_kategorie_szczegolowe
@@ -79,21 +74,12 @@ def ograniczenia_wiek(poczatkowa_baza, wiek):
     return obecna_baza
 
 
-def ograniczenie_budzet(początkowa_baza, budzet_min, budzet_max):
+def ograniczenie_budzet(poczatkowa_baza, budzet):
 
     obecna_baza = []
 
-    for i in range(len(początkowa_baza)):
-        if budzet_min <= int(początkowa_baza[i][5]) <= budzet_max:
-            obecna_baza.append(początkowa_baza[i])
+    for i in range(len(poczatkowa_baza)):
+        if int(poczatkowa_baza[i][5]) <= budzet:
+            obecna_baza.append(poczatkowa_baza[i])
 
     return obecna_baza
-
-# p='k'
-# bz = ograniczenia_plec(baza_produktow, p)
-# bz2 = ograniczenia_wiek(bz, 10)
-# bz3 = ograniczenie_budzet(bz2, 10,100)
-#
-#
-# for i in range(len(bz3)):
-#     print(bz3[i][5])
