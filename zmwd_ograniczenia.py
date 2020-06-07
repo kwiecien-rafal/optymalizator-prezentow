@@ -19,12 +19,13 @@ dorosly_podkategorie = pwk.dorosly_podkategorie
 starsza_podkategorie = pwk.starsza_podkategorie
 
 urodziny_gwiazdka = okz.urodziny_gwiazdka
-walentynki - okz.walentynki
+walentynki = okz.walentynki
 dzien_kobiet_chlopaka = okz.dzien_kobiet_chlopaka
 dzien_dziadka_babci_mamy_taty = okz.dzien_dziadka_babci_mamy_taty
 dzien_dziecka = okz.dzien_dziecka
 slub = okz.slub
 komunia = okz.komunia
+
 
 def ograniczenia_plec(poczatkowa_baza, plec):
 
@@ -87,17 +88,18 @@ def ograniczenia_wiek(poczatkowa_baza, wiek):
     return obecna_baza
 
 
-def ograniczenie_budzet(początkowa_baza, budzet_min, budzet_max):
+def ograniczenie_budzet(poczatkowa_baza, budzet_min, budzet_max):
 
     obecna_baza = []
 
-    for i in range(len(początkowa_baza)):
-        if budzet_min <= int(początkowa_baza[i][5]) <= budzet_max:
-            obecna_baza.append(początkowa_baza[i])
+    for i in range(len(poczatkowa_baza)):
+        if budzet_min <= int(poczatkowa_baza[i][5]) <= budzet_max:
+            obecna_baza.append(poczatkowa_baza[i])
 
     return obecna_baza
 
-def ograniczenia_okazja(początkowa_baza, okazja):
+
+def ograniczenia_okazja(poczatkowa_baza, okazja):
     
     global urodziny_gwiazdka 
     global walentynki 
@@ -118,7 +120,7 @@ def ograniczenia_okazja(początkowa_baza, okazja):
         for i in range(len(poczatkowa_baza)):
             if poczatkowa_baza[i][1].lower() in urodziny_gwiazdka:
                 obecna_baza.append(poczatkowa_baza[i])
-    elif okazja == 'walentynki'
+    elif okazja == 'walentynki':
         for i in range(len(poczatkowa_baza)):
             if poczatkowa_baza[i][1].lower() in walentynki:
                 obecna_baza.append(poczatkowa_baza[i])
@@ -138,7 +140,7 @@ def ograniczenia_okazja(początkowa_baza, okazja):
         for i in range(len(poczatkowa_baza)):
             if poczatkowa_baza[i][1].lower() in dzien_dziadka_babci_mamy_taty:
                 obecna_baza.append(poczatkowa_baza[i])
-    elif okazja == 'dzien mamy'
+    elif okazja == 'dzien mamy':
         for i in range(len(poczatkowa_baza)):
             if poczatkowa_baza[i][1].lower() in dzien_dziadka_babci_mamy_taty:
                 obecna_baza.append(poczatkowa_baza[i])
