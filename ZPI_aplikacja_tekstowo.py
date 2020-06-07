@@ -3,6 +3,7 @@ import ograniczenia as ogr
 import AHP as aha
 import ZPI_f_celu as fcl
 
+
 def normalizacja(lista):
 
     znormalizowana_lista = []
@@ -41,7 +42,7 @@ while len(lista_osob) < il_osob:
 
     obecna_baza = ogr.ograniczenia_plec(obecna_baza, plec)
     obecna_baza = ogr.ograniczenia_wiek(obecna_baza, wiek)
-    obecna_baza = ogr.ograniczenie_budzet(obecna_baza, 0, budzet)
+    obecna_baza = ogr.ograniczenie_budzet(obecna_baza, budzet)
 
     print('Lp | Nazwa produtu | cena | popularność')
     for produkt in obecna_baza:
