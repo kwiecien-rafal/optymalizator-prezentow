@@ -1,13 +1,29 @@
 import numpy as np
 import itertools
 
+
+def normalizacja(lista):
+
+    znormalizowana_lista = []
+    for i in range(len(lista)):
+        znormalizowana_wartosc = (lista[i] - min(lista)) / (max(lista) - min(lista))
+        znormalizowana_lista.append(round(znormalizowana_wartosc, 2))
+
+    return znormalizowana_lista
+
+
 def f_celu(kategorie, prod_koszyk, popularnosc, cena, ahp_kryteria):
     lista_wartosci_f_celu = []
+    samo_dopasowanie = []
     for i in range(len(prod_koszyk)):
 
         funkcja = kategorie[i] * ahp_kryteria[0] + popularnosc[i] * ahp_kryteria[1] + cena[i] * ahp_kryteria[2]
+        samo_dopasowanie.append(round(funkcja, 3))
 
-        lista_wartosci_f_celu.append([prod_koszyk[i], round(funkcja, 3), cena[i]])
+    samo_dopasowanie = normalizacja(samo_dopasowanie)
+
+    for i in range(len(prod_koszyk)):
+        lista_wartosci_f_celu.append([prod_koszyk[i], samo_dopasowanie[i], cena[i]])
 
     return lista_wartosci_f_celu
 
