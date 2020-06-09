@@ -5,6 +5,7 @@ import itertools as itr
 import csv
 import ograniczenia as ogr
 import ZPI_f_celu as fcl
+from PIL import ImageTk, Image
 
 root_menu = Tk()
 root_menu.wm_title("Optymalizator prezentów świątecznych")
@@ -219,6 +220,8 @@ def dodaj_przedmioty(zazn):
 
     lb_przedmioty = Listbox(frame0, height = 10, width = 70)
     lb_przedmioty.grid(row = 3, column = 0, sticky = 'n', columnspan = 2)
+
+    lb_przedmioty.bind('<Double-Button>', szczegol)
 
     b_dodaj = Button(frame0, text = 'dodaj', command = dodaj)
     b_dodaj.grid(row = 4, column = 0, sticky = 'nesw')
@@ -525,7 +528,31 @@ def wyniki():
     for k, v in ahpo.items():
         ahp_3[k] = round(float(v), 2)
 
+    
+    with open('baza_wszystkich_produktow.csv', newline='', encoding='utf-8-sig') as f:
+        reader = csv.reader(f)
+        baza_produktowc = list(reader)
+    for n in lista_przedmiotow_osob:
+        for m in n:
+            for l in baza_produktowc:
+                if m[0] == l[3]:
+                    m[2] = float(l[5])
+
     zz = fcl.optymalizacja(ahp_3, lista_przedmiotow_osob, budzet)
+
+    wyniki = zz
+    if len(wyniki) == 0:
+        root_wyniki = Toplevel()
+        root_wyniki.wm_title("Wyniki")
+
+        l_blad = Label(root_wyniki, text = "przekorczony budżet - dodaj tańsze produkty albo zwiększ budżet", fg="red")
+        l_blad.pack()
+
+        b_okb = Button(root_wyniki, text = 'ok', command = root_wyniki.destroy)
+        b_okb.pack()
+
+        root_wyniki.geometry("+{}+{}".format(positionRight, positionDown))
+        return
 
 
     root_wyniki = Toplevel()
@@ -536,7 +563,7 @@ def wyniki():
     osobyw = []
     for i in osoby:
         osobyw.append(i['nazwa'])
-    wyniki = zz
+    
     miejsce = 0
     score = wyniki[miejsce][0]
 
@@ -545,6 +572,8 @@ def wyniki():
 
     lb_przedw = Listbox(root_wyniki, height = len(osoby)+1, width = 70)
     lb_przedw.grid(row = 1, column = 1, columnspan = 3, pady=(0, 0))
+
+    lb_przedw.bind('<Double-Button>', szczegol)
 
     for i in osobyw:
         lb_osobyw.insert(END, i)
@@ -578,14 +607,14 @@ def wyniki():
             pass
 
     def upl():
-        m_wynik.configure(text = 'miejsce: '+str(miejsce+1)+'\nscore: '+str(score))
+        m_wynik.configure(text = 'miejsce: '+str(miejsce+1)+'/'+str(len(wyniki))+'\nscore: '+str(score))
 
 
 
     b_lewo = Button(root_wyniki, text = '<', width = 10, command= lewo)
     b_lewo.grid(row = 0, column = 1, columnspan = 1, sticky = 'nsw')
 
-    m_wynik = Message(root_wyniki, text = 'miejsce: '+str(miejsce+1)+'\nscore: '+str(score), width = 300)
+    m_wynik = Message(root_wyniki, text = 'miejsce: '+str(miejsce+1)+'/'+str(len(wyniki))+'\nscore: '+str(score), width = 300)
     m_wynik.grid(row = 0, column = 2, columnspan = 1)
 
     b_prawo = Button(root_wyniki, text = '>', width = 10, command= prawo)
@@ -621,6 +650,56 @@ def onselect(evt):
     zazn = int(w.curselection()[0])
     up_lb_przedmioty(zazn)
 
+def szczegol(evt):
+    w = evt.widget
+    przedmiotzazn = w.get(ACTIVE)
+    print(przedmiotzazn)
+
+    root_szczeg = Toplevel()
+    root_menu.wm_title("Szczegóły")
+
+    with open('baza_wszystkich_produktow.csv', newline='', encoding='utf-8-sig') as f:
+            reader = csv.reader(f)
+            baza_produktow_s = list(reader)
+    idd =0
+    for row in baza_produktow_s:
+        if row[3] == przedmiotzazn:
+            nazwa = row[3]
+            link = row[4]
+            cena = row[5]
+            zdjecie = 'produkt_0000'
+            zdjecie = zdjecie[0:-len(str(idd))]+str(idd)+'.jpg'
+
+            if idd<1000:
+                direct = 'zdjecia_0-999/'
+            else:
+                direct = 'zdjecia_1000-1384/'
+            print(nazwa, link, cena, zdjecie)
+        idd +=1
+
+    my_img = ImageTk.PhotoImage(Image.open(direct+zdjecie))
+    l_zdjecie = Label(root_szczeg, image=my_img)
+    l_zdjecie.my_img = my_img
+    l_zdjecie.pack()
+
+    l_nazwa = Label(root_szczeg, text = nazwa).pack()
+    l_cena = Label(root_szczeg, text ='cena :' +cena+' zł').pack()
+    #l_link = Label(root_szczeg, text = link).pack()
+    e_link = Entry(root_szczeg, text = '', width = len(link)-5)
+    e_link.pack()
+    e_link.delete(0, END)
+    e_link.insert(0, link)
+    e_link.config(state = 'readonly')
+
+
+
+    root_menu.geometry("{}x{}+{}+{}".format(windowWidth_g, windowHeight_g, positionRight, positionDown))
+    pass
+
+# my_img = ImageTk.PhotoImage(Image.open('costam'))
+# l_zdjecie = Label(image=my_img)
+# l_zdjecie.pack
+
 
 
 b_plso = Button(fl, text = '+', font=Font(family='default', weight = 'bold'), command = dodaj_osoby)
@@ -642,6 +721,8 @@ b_mnsp = Button(fl, text = '-', font=Font(family='default', weight = 'bold'), co
 b_mnsp.grid(row = rpb, column = 2, sticky = 'nesw')
 lb_przed = Listbox(fl, height = 14, width = 50)
 lb_przed.grid(row = rpl, column = 0, columnspan = 3)
+
+lb_przed.bind('<Double-Button>', szczegol)
 
 b_mnsp = Button(fb, text = 'optymalizuj', height = 2, command = ahpw)
 b_mnsp.grid(row = 7, column = 0, sticky = 's', pady=(25,0), columnspan = 2)
