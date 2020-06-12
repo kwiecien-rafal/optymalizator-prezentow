@@ -1,4 +1,4 @@
-cd# ograniczenia na okazje
+# ograniczenia na okazje
 urodziny_gwiazdka = [
     'telefony i akcesoria',
     'komputery',
